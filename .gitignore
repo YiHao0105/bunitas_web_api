@@ -1,0 +1,5 @@
+# API vendor directory
+/vendor
+
+# API public/storage directory
+/public/storage
