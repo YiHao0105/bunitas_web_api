@@ -100,10 +100,26 @@
 
         <table width="100%" style="border-collapse: collapse;">
             <tr>
-                <td widdth="50%" style="background:#eee;padding:20px 5px;">
-                    <strong>Date:</strong>  {{$data->save_date}} <br>
+                <td width="50%" style="background:#eee;padding:20px 5px;">
+                    <strong>
+                        Costumer Name
+                    </strong>
+
+                    {{$data->userInfo->first_name}} {{$data->userInfo->last_name}}
+                    <br>
+
+                </td>
+                <td width="50%" style="background:#eee;padding:20px 5px;">
+                    <strong> Appointment ID: </strong> #{{$data->id}} <br>
+                    <strong>Appointment placed on::</strong> {{$data->appointments_to == 1 ? 'Home':'At Salon'}} <br>
+                </td>
+            </tr>
+            <tr>
+
+                <td width="50%" style="background:#eee;padding:20px 5px;">
+                    <strong>Date:</strong> {{$data->save_date}} <br>
                     <strong>Payment type:</strong> {{$data->pay_method}}<br>
-                    <strong>Service At:</strong>  {{$data->appointments_to == 1 ? 'Home':'At Salon'}} <br>
+                    <strong>Service At:</strong> {{$data->appointments_to == 1 ? 'Home':'At Salon'}} <br>
                 </td>
                 <td style="background:#eee;padding:20px 5px;">
                     <strong>Order-no:</strong> {{$data->id}}<br>
@@ -112,70 +128,54 @@
                 </td>
             </tr>
         </table><br>
+        <h3>Salon / Beautician Information</h3>
         <table width="100%">
             <tr>
-                <td>
-                    <table>
-                        <tr>
-                            @if($data->freelancer_id == 0)
-                                <td>
-                                    Salon Information<br>
-                                    <strong>{{$data->salonInfo->name}}</strong> <br>
-                                    {{$data->ownerInfo->email}}<br>
-                                    {{$data->ownerInfo->mobile}}<br>
-                                </td>
-                            @endif
-
-                            @if($data->salon_id == 0)
-                                <td>
-                                    Individual<br>
-                                    <strong>{{$data->individualInfo->first_name}} {{$data->individualInfo->last_name}} </strong> <br>
-                                    {{$data->ownerInfo->email}}<br>
-                                    {{$data->ownerInfo->mobile}}<br>
-                                </td>
-                            @endif
-                        </tr>
-                    </table>
+                <td width="100%">
+                    Business Name:
+                    @if($data->freelancer_id == 0)
+                    <strong>{{$data->salonInfo->name}}</strong> <br>
+                    @endif
+                    @if($$data->salon_id == 0)
+                    <strong>{{$data->individualInfo->first_name}} {{$data->individualInfo->last_name}}</strong> <br>
+                    @endif
+                    Email: <strong>{{$data->ownerInfo->email}}</strong><br />
+                    Phone Number: <strong>{{$data->ownerInfo->mobile}}</strong>
+                    <br>
+                    @if($data->freelancer_id == 0)
+                    Address: <strong>{{$data->salonInfo->address}}</strong> <br />
+                    @endif
                 </td>
-                <td>
-                    <table>
-                        <tr>
-                            @if($data->appointments_to == 1)
-                                <td>
-                                    Customer<br>
-                                    <strong>{{$data->userInfo->first_name}} {{$data->userInfo->last_name}}</strong> <br>
-                                    {{$delivery->house}} {{$delivery->landmark}} <br>
-                                    {{$delivery->address}} <br>
-                                    {{$delivery->pincode}}
-                                </td>
-                            @endif
-
-                            @if($data->appointments_to == 0)
-                                <td>
-                                    Customer<br>
-                                    <strong>{{$data->userInfo->first_name}} {{$data->userInfo->last_name}}</strong> <br>
-                                    At Salon
-                                </td>
-                            @endif
-                        </tr>
-                    </table>
-                </td>
+                @endif
             </tr>
-        </table><br>
+        </table>
+        <h3>Appointment details</h3>
+        <table width="100%">
+            <td width="50%" style="background:#eee;padding:20px 5px;">
+                Appointment place:
+                <strong>
+                    {{$data->address}}
+                </strong><br />
+            </td>
+            <td width="50%" style="background:#eee;padding:20px 5px;">
+                Appointment Date/Time: <strong>
+                    {{$data->save_date}}
+                </strong><br />
+            </td>
+        </table>
 
-        <h3>Your Services</h3>
+        <h3>Your Treatments</h3>
 
-        <table width="100%" style="border-collapse: collapse;border-bottom:1px solid #eee;">
+        <table width="100%" style="border-collapse: collapse;border-bottom:1px solid #eee; display:flex;">
+
+
             @if($data->items->services)
-                <tr>
-                    <td width="40%" class="column-header">Services</td>
-                    <!-- <td width="20%" class="column-header">Total</td> -->
-                </tr>
-
+            <tr width="50%">
                 @foreach($data->items->services as $services)
-                <tr>
-                    <td class="row"><span style="color:#777;font-size:11px;">#{{$services->id}}</span><br>{{$services->name}}</td>
-                    <!-- <td class="row">
+                <td class="row">
+                    <span style="color:#777;font-size:11px;">#{{$services->id}}</span><br>{{$services->name}}
+                </td>
+                <!-- <td class="row">
                     @if($services->discount > 0)
                         {{$general->currencySymbol}} {{$services->off}}
                     @endif
@@ -183,80 +183,88 @@
                         {{$general->currencySymbol}} {{$services->price}}
                     @endif
                     </td> -->
-                </tr>
-                @endforeach
+            </tr>
+            @endforeach
 
             @endif
 
-            @if($data->items->packages)
-                <tr>
-                    <td width="40%" class="column-header">Packages</td>
-                    <!-- <td width="20%" class="column-header">Total</td> -->
-                </tr>
-
-                @foreach($data->items->packages as $services)
-                <tr>
-                    <td class="row"><span style="color:#777;font-size:11px;">#{{$services->id}}</span><br>{{$services->name}}
+            <!--      @if($data->items->packages)
+            @foreach($data->items->packages as $services)
+            <tr>
+                <td class="row"><span
+                        style="color:#777;font-size:11px;">#{{$services->id}}</span><br>{{$services->name}}
                     @foreach($services->services as $sub)
-                    <p style="margin: 0px; line-height: 140%; text-align: start; word-wrap: break-word; font-family: 'Montserrat',sans-serif; font-size: 8px;">
+                    <p
+                        style="margin: 0px; line-height: 140%; text-align: start; word-wrap: break-word; font-family: 'Montserrat',sans-serif; font-size: 8px;">
                         - {{$sub->name}}
                     </p>
                     @endforeach
                 </td>
-                    <!-- <td class="row">
-                    @if($services->discount > 0)
-                        {{$general->currencySymbol}} {{$services->off}}
-                    @endif
-                    @if($services->discount <= 0)
-                        {{$general->currencySymbol}} {{$services->price}}
-                    @endif
-                    </td> -->
-                </tr>
-                @endforeach
+            </tr>
+            @endforeach
 
-            @endif
+            @endif -->
+
         </table>
-
-        <br>
+        <h3>Your Treatments</h3>
+        <table width="100%">
+            <td width="50%">
+                Treatment(s) List:
+                @if($data->items->services)
+                @foreach($data->items->services as $services)
+                <div class="row">
+                    <span style="color:#777;font-size:11px;">#{{$services->id}}</span><br>{{$services->name}}
+                </div>
+                @endforeach
+                @endif
+            </td>
+            <td width="50%">
+                Appointment Date/Time: <strong>
+                    {{$data->save_date}}
+                </strong><br />
+            </td>
+        </table>
         <table width="100%" style="background:#eee;padding:20px;">
-            <tr>
+            <!--   <tr>
                 <td>
-                    <table width="300px" style="float:right">
-                        <tr>
-                            <td><strong>Service Cost:</strong></td>
-                            <td style="text-align:right"> {{$general->currencySymbol}} {{$data->total}} </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Distance Charge:</strong></td>
-                            <td style="text-align:right"> {{$general->currencySymbol}} {{$data->appoint_distance}} </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Total Discount:</strong></td>
-                            <td style="text-align:right"> - {{$general->currencySymbol}} {{$data->discount}} </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Sub-total:</strong></td>
-                            <td style="text-align:right">{{$general->currencySymbol}} {{$data->appoint_subtotal}} </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Deposit fee:</strong></td>
-                            <td style="text-align:right">{{$general->currencySymbol}} {{$data->appoint_deposit_fee}} </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Booking fee:</strong></td>
-                            <td style="text-align:right">{{$general->currencySymbol}} {{$general->booking_fee}} </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Processing fee:</strong></td>
-                            <td style="text-align:right">{{$general->currencySymbol}} {{$general->processing_fee}} </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Grand total by Earnings:</strong></td>
-                            <td style="text-align:right">{{$general->currencySymbol}} {{$data->appoint_subtotal - $data->appoint_deposit_fee}} </td>
-                        </tr>
-                    </table>
+                    <table width="300px" style="float:right"> -->
+            <tr>
+                <td><strong>Service Cost:</strong></td>
+                <td style="text-align:right"> {{$general->currencySymbol}} {{$data->total}} </td>
+            </tr>
+            <tr>
+                <td><strong>Distance Charge:</strong></td>
+                <td style="text-align:right"> {{$general->currencySymbol}} {{$data->appoint_distance}} </td>
+            </tr>
+            <tr>
+                <td><strong>Total Discount:</strong></td>
+                <td style="text-align:right"> - {{$general->currencySymbol}} {{$data->discount}} </td>
+            </tr>
+            <tr>
+                <td><strong>Sub-total:</strong></td>
+                <td style="text-align:right">{{$general->currencySymbol}} {{$data->appoint_subtotal}} </td>
+            </tr>
+            <tr>
+                <td><strong>Deposit fee:</strong></td>
+                <td style="text-align:right">{{$general->currencySymbol}} {{$data->appoint_deposit_fee}}
                 </td>
             </tr>
+            <tr>
+                <td><strong>Booking fee:</strong></td>
+                <td style="text-align:right">{{$general->currencySymbol}} {{$general->booking_fee}} </td>
+            </tr>
+            <tr>
+                <td><strong>Processing fee:</strong></td>
+                <td style="text-align:right">{{$general->currencySymbol}} {{$general->processing_fee}} </td>
+            </tr>
+            <tr>
+                <td><strong>Grand total by Earnings:</strong></td>
+                <td style="text-align:right">{{$general->currencySymbol}} {{$data->appoint_subtotal -
+                    $data->appoint_deposit_fee}} </td>
+            </tr>
+            <!--    </table>
+                </td>
+            </tr> -->
         </table>
         <br>
 
