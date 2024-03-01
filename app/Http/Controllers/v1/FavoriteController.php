@@ -138,7 +138,7 @@ class FavoriteController extends Controller
             ->select('category_types.*', 'favorites.id as fid')
             ->join('category_types', 'category_types.id', 'favorites.pid')
             ->where('favorites.uid', $request->id)->where('favorites.type', 'treatment')
-            ->orderBy('created_at', 'desc');
+            ->orderBy('created_at', 'desc')->get();
 
         return response()->json(['salon' => $salon, 'product' => $product, 'beauticiation' => $beauticiation, 'treatments' => $treatments, 'status' => 200], 200);
     }
