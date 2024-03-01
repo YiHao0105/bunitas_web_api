@@ -135,8 +135,8 @@ class FavoriteController extends Controller
             ->get();
 
         $treatments = DB::table('favorites')
-            ->select('category_types.*', 'favorites.id as fid')
-            ->join('category_types', 'category_types.id', 'favorites.pid')
+            ->select('services.*', 'favorites.id as fid')
+            ->join('services', 'services.id', 'favorites.pid')
             ->where('favorites.uid', $request->id)->where('favorites.type', 'treatment')
             ->orderBy('created_at', 'desc')->get();
 
