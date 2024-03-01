@@ -140,6 +140,6 @@ class FavoriteController extends Controller
             ->where('favorites.uid', $request->id)->where('favorites.type', 'treatment')
             ->orderBy('created_at', 'desc')->get();
 
-        return response()->json(['salon' => $salon, 'product' => $product, 'beauticiation' => $beauticiation, 'treatments' => $treatments, 'status' => 200], 200);
+        return response()->json(['salon' => $salon, 'product' => $product, 'beauticiation' => $beauticiation, 'treatments' => $treatments, 'att' => 'sim', 'status' => 200], 200);
     }
 }
